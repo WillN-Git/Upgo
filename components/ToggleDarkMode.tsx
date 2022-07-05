@@ -9,9 +9,9 @@ export default function ToggleDarkMode() {
         <HStack space={2} alignItems="center">
             <Pressable onPress={toggleColorMode}>
                 {colorMode === 'light' ? (
-                    <Icon name="sun" size={24} color="black" />
-                ) : (
                     <Icon name="moon" size={24} color="black" />
+                ) : (
+                    <Icon name="sun" size={24} color="orange" />
                 )}
             </Pressable>
         </HStack>

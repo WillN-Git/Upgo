@@ -1,9 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Dimensions, Animated, View } from 'react-native';
-import { Box, useColorMode } from 'native-base';
-import { useEffect } from 'react';
+import { Box, useColorMode, Text } from 'native-base';
+import useBrands from '../hooks/useBrands';
 
-const API_URL = 'https://stockx.com/api';
 const { width } = Dimensions.get('screen');
 
 /**
@@ -21,95 +20,89 @@ export default function BrandList() {
         { useNativeDriver: true }
     );
 
-    const [brands, setBrands] = useState<string[]>([]);
+    // List Item config
     const ITEM_SIZE = width * 0.38;
     const ITEM_SPACING = (width - ITEM_SIZE) / 2;
 
-    const getBrands = async () => {
-        await fetch(`${API_URL}/browse?productCategory=sneakers`)
-            .then((res) => res.json())
-            .then((res) => {
-                const arr = Object.keys(res.Facets.brand);
-
-                setBrands(arr);
-            });
-    };
-
-    // Get Brands
-    useEffect(() => {
-        getBrands();
-        console.log('BRAND');
-    }, []);
+    const { data, error, isSuccess, isLoading } = useBrands();
 
     // Test
     // useEffect(() => {
-    //     scrollX.addListener((v) => console.log('HEY => ', v));
-    // }, [scrollX]);
+    //     scrollX.addListener((offset) => {
+    //         const index = Math.ceil(offset.value / ITEM_SIZE);
 
-    console.log('RENDU');
+    //         console.log('MARQUE => ', brands[index]);
+    //     });
+    // }, [scrollX]);
 
     return (
         <Box minHeight={25}>
-            <Animated.FlatList
-                data={brands}
-                horizontal
-                bounces={false}
-                style={{ flexGrow: 0 }}
-                onScroll={onScroll}
-                showsHorizontalScrollIndicator={false}
-                decelerationRate="fast"
-                snapToInterval={ITEM_SIZE}
-                contentContainerStyle={{ paddingHorizontal: ITEM_SPACING }}
-                keyExtractor={(item) => `brand-category-${item}`}
-                renderItem={({ item, index }) => {
-                    const inputRange = [
-                        (index - 1) * ITEM_SIZE,
-                        index * ITEM_SIZE,
-                        (index + 1) * ITEM_SIZE,
-                    ];
+            {isLoading && <Text>Loading...</Text>}
 
-                    const opacity = scrollX.interpolate({
-                        inputRange,
-                        outputRange: [0.4, 1, 0.4],
-                    });
+            {error && <Text>An error occured {error}</Text>}
 
-                    const scale = scrollX.interpolate({
-                        inputRange,
-                        outputRange: [0.6, 1.2, 0.6],
-                    });
+            {isSuccess && (
+                <Animated.FlatList
+                    data={data}
+                    horizontal
+                    bounces={false}
+                    style={{ flexGrow: 0 }}
+                    onScroll={onScroll}
+                    showsHorizontalScrollIndicator={false}
+                    decelerationRate="fast"
+                    snapToInterval={ITEM_SIZE}
+                    contentContainerStyle={{ paddingHorizontal: ITEM_SPACING }}
+                    keyExtractor={(item) => `brand-category-${item}`}
+                    renderItem={({ item, index }) => {
+                        const inputRange = [
+                            (index - 1) * ITEM_SIZE,
+                            index * ITEM_SIZE,
+                            (index + 1) * ITEM_SIZE,
+                        ];
 
-                    return (
-                        <View
-                            style={{
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <Animated.Text
-                                style={[
-                                    {
-                                        fontFamily: 'Inter_900Black',
-                                        fontWeight: '900',
-                                        fontSize: 25,
-                                        textTransform: 'uppercase',
-                                        textAlign: 'center',
-                                        width: ITEM_SIZE,
-                                        color:
-                                            colorMode === 'light'
-                                                ? 'black'
-                                                : 'white',
-                                    },
-                                    {
-                                        opacity,
-                                        transform: [{ scale }],
-                                    },
-                                ]}
+                        const opacity = scrollX.interpolate({
+                            inputRange,
+                            outputRange: [0.4, 1, 0.4],
+                        });
+
+                        const scale = scrollX.interpolate({
+                            inputRange,
+                            outputRange: [0.6, 1.2, 0.6],
+                        });
+
+                        return (
+                            <View
+                                style={{
+                                    justifyContent: 'center',
+                                }}
                             >
-                                {item}
-                            </Animated.Text>
-                        </View>
-                    );
-                }}
-            />
+                                <Animated.Text
+                                    style={[
+                                        {
+                                            fontFamily: 'Inter_900Black',
+                                            fontWeight: '900',
+                                            fontSize: 25,
+                                            textTransform: 'uppercase',
+                                            textAlign: 'center',
+                                            width: ITEM_SIZE,
+                                            color:
+                                                colorMode === 'light'
+                                                    ? 'black'
+                                                    : 'white',
+                                        },
+                                        {
+                                            opacity,
+                                            transform: [{ scale }],
+                                        },
+                                    ]}
+                                >
+                                    {item}
+                                </Animated.Text>
+                            </View>
+                        );
+                    }}
+                />
+            )}
         </Box>
     );
 }

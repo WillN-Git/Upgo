@@ -1,24 +1,41 @@
 import React, { ComponentProps } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Feather as Icon } from '@expo/vector-icons';
+import { useColorMode, useColorModeValue } from 'native-base';
 
 // Screens
-import {
-    HomeScreen,
-    SearchScreen,
-    FavoriteScreen,
-    ProfileScreen,
-} from '../screens';
+import { HomeScreen, SearchScreen, FavoriteScreen } from '../screens';
+import Header from '../containers/Header';
 
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
+    const { colorMode } = useColorMode();
+
+    // Tab Bar Options
+    const commonOptions = {
+        headerTitle: () => <Header />,
+        headerStyle: {
+            backgroundColor: colorMode === 'light' ? '#e2e8f0' : '#1e293b',
+        },
+        tabBarStyle: {
+            height: 80,
+            borderColor: 'transparent',
+            backgroundColor: colorMode === 'light' ? '#e2e8f0' : '#1e293b',
+        },
+    };
+
     return (
-        <BottomTab.Navigator initialRouteName="Home">
+        <BottomTab.Navigator
+            initialRouteName="Home"
+            // screenOptions={{ headerStyle: { backgroundColor: 'gray' } }}
+            // screenOptions={{ headerShown: false }}
+        >
             <BottomTab.Screen
                 name="Home"
                 component={HomeScreen}
                 options={{
+                    ...commonOptions,
                     title: 'Home',
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="home" color={color} />
@@ -29,6 +46,7 @@ export default function BottomTabNavigator() {
                 name="Search"
                 component={SearchScreen}
                 options={{
+                    ...commonOptions,
                     title: 'Search',
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="search" color={color} />
@@ -39,19 +57,10 @@ export default function BottomTabNavigator() {
                 name="Favorite"
                 component={FavoriteScreen}
                 options={{
+                    ...commonOptions,
                     title: 'Favorite',
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="heart" color={color} />
-                    ),
-                }}
-            />
-            <BottomTab.Screen
-                name="Profile"
-                component={ProfileScreen}
-                options={{
-                    title: 'Profile',
-                    tabBarIcon: ({ color }) => (
-                        <TabBarIcon name="user" color={color} />
                     ),
                 }}
             />

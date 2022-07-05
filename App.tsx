@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar as SB } from 'react-native';
-import { Box, Center, extendTheme, NativeBaseProvider } from 'native-base';
+import { extendTheme, NativeBaseProvider } from 'native-base';
 import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { Roboto_400Regular } from '@expo-google-fonts/roboto';
 
 // Components
 import Loader from './components/Loader';
-import ToggleDarkMode from './components/ToggleDarkMode';
 import { StatusBar } from 'expo-status-bar';
-import BrandList from './components/BrandList';
-import LikeBtn from './components/LikeBtn';
-import ShoesBox from './containers/ShoesBox';
 import Navigation from './navigation';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 
 // Define the config
@@ -30,7 +26,9 @@ declare module 'native-base' {
 }
 
 export default function App() {
-    const FAKE_TIME_LOAD = 5000;
+    const queryClient = new QueryClient();
+
+    const FAKE_TIME_LOAD = 1000;
     const [endOfLoading, setEndOfLoading] = useState(false);
     
     // Fonts Loading
@@ -49,22 +47,15 @@ export default function App() {
     }, []);
 
     return (
-        <NativeBaseProvider>
-            {loadCondition ? (
-                <Loader />
-            ) : (
-                // <Box pt={SB.currentHeight}>
-                //     <ToggleDarkMode />
-
-                //     <Center h="full" _dark={{ bg: 'blueGray.700' }} _light={{ bg: 'blueGray.200' }} pl="10" pr="10">
-                //         {/* <LikeBtn /> */}
-
-                //         <ShoesBox />
-                //     </Center>
-                // </Box>
-                <Navigation />
-            )}
-            <StatusBar style="auto" />
-        </NativeBaseProvider>
+        <QueryClientProvider client={queryClient}>
+            <NativeBaseProvider>
+                {loadCondition ? (
+                    <Loader />
+                ) : (
+                    <Navigation />
+                )}
+                <StatusBar style="auto" />
+            </NativeBaseProvider>
+        </QueryClientProvider>
     );
 }
