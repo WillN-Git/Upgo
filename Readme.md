@@ -1,9 +1,3 @@
-# NativeBase TypeScript Expo Template
+# Upgo
 
-The official NativeBase TypeScript template for [Expo](https://docs.expo.io/)
-
-## Usage
-
-```sh
-expo init my-app --template @native-base/expo-template-typescript
-```
+Une application pour voir les dates de sorties des prochaines paires 😯✨

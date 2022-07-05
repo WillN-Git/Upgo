@@ -1,0 +1,12 @@
+import React from 'react';
+import { View, Text } from 'react-native';
+
+interface SearchScreenProps {}
+
+export default function SearchScreen() {
+    return (
+        <View>
+            <Text>SearchScreen</Text>
+        </View>
+    );
+}

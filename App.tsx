@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Center, extendTheme, NativeBaseProvider } from 'native-base';
+import { StatusBar as SB } from 'react-native';
+import { Box, Center, extendTheme, NativeBaseProvider } from 'native-base';
 import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { Roboto_400Regular } from '@expo-google-fonts/roboto';
+
+// Components
 import Loader from './components/Loader';
-import NativeBaseIcon from './components/NativeBaseIcon';
 import ToggleDarkMode from './components/ToggleDarkMode';
+import { StatusBar } from 'expo-status-bar';
+import BrandList from './components/BrandList';
+import LikeBtn from './components/LikeBtn';
+import ShoesBox from './containers/ShoesBox';
+import Navigation from './navigation';
+
 
 // Define the config
 const config = {
@@ -22,7 +30,7 @@ declare module 'native-base' {
 }
 
 export default function App() {
-    const FAKE_TIME_LOAD = 0;
+    const FAKE_TIME_LOAD = 5000;
     const [endOfLoading, setEndOfLoading] = useState(false);
     
     // Fonts Loading
@@ -45,11 +53,18 @@ export default function App() {
             {loadCondition ? (
                 <Loader />
             ) : (
-                <Center h="full" _dark={{ bg: 'blueGray.700' }} _light={{ bg: 'blueGray.200' }}>
-                    <ToggleDarkMode />
-                    <NativeBaseIcon />
-                </Center>
+                // <Box pt={SB.currentHeight}>
+                //     <ToggleDarkMode />
+
+                //     <Center h="full" _dark={{ bg: 'blueGray.700' }} _light={{ bg: 'blueGray.200' }} pl="10" pr="10">
+                //         {/* <LikeBtn /> */}
+
+                //         <ShoesBox />
+                //     </Center>
+                // </Box>
+                <Navigation />
             )}
+            <StatusBar style="auto" />
         </NativeBaseProvider>
     );
 }
