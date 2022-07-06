@@ -1,5 +1,6 @@
 import LikeBtn from './LikeBtn';
 import Loader from './Loader';
+import Filter from './Filter';
 import Searchbar from './Searchbar';
 import ToggleDarkMode from './ToggleDarkMode';
 import MostPopularShoe from './MostPopularShoe';
@@ -16,6 +17,7 @@ export {
     BrandList,
     Header,
     ShoesBox,
+    Filter,
     LikeBtn,
     Loader,
     ShoesList,
