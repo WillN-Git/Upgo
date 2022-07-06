@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import { API_URL } from '../utils/constants';
+import { Brand } from '../types';
 
 const getBrands = async () => {
     const { data } = await axios.get(
@@ -10,7 +11,12 @@ const getBrands = async () => {
         }
     );
 
-    const brands = Object.keys(data.Facets.brand);
+    const brands: Brand[] = Object.entries(data.Facets.brand).map((value) => {
+        return {
+            name: value[0],
+            qty: parseInt('' + value[1]),
+        };
+    });
 
     return brands;
 };

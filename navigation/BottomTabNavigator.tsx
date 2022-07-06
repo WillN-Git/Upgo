@@ -16,12 +16,12 @@ export default function BottomTabNavigator() {
     const commonOptions = {
         headerTitle: () => <Header />,
         headerStyle: {
-            backgroundColor: colorMode === 'light' ? '#e2e8f0' : '#1e293b',
+            backgroundColor: colorMode === 'light' ? 'white' : '#1e293b',
         },
         tabBarStyle: {
             height: 80,
             borderColor: 'transparent',
-            backgroundColor: colorMode === 'light' ? '#e2e8f0' : '#1e293b',
+            backgroundColor: colorMode === 'light' ? 'white' : '#1e293b',
         },
     };
 

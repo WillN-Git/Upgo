@@ -1,28 +1,29 @@
-export interface Shoes {
+export interface Shoe {
     id: string;
     brand: string;
     category: string;
     gender: string;
+    description: string;
     countryOfManufacture: string;
-    media: ShoesMediaImage;
+    media: ShoeMediaImage;
     name: string; // Shoe Category's name
     releaseDate: string;
     releaseTime: number;
     retailPrice: number;
     shoe: string; // Shoe name
     year: number;
-    market: ShoesMarket;
+    market: ShoeMarket;
     _tags: Array<string>;
     selling_countries: Array<string>;
 }
 
-export interface ShoesMediaImage {
+export interface ShoeMediaImage {
     imageUrl: string;
     smallImageUrl: string;
     thumbUrl: string;
 }
 
-export interface ShoesMarket {
+export interface ShoeMarket {
     numberOfAsks: number;
     createdAt: string;
 }
