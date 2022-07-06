@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Text, Image } from 'native-base';
-import { API_URL } from '../utils/constants';
-import { Shoe } from '../types/Shoes';
+import { API_URL } from '../../utils/constants';
+import { Shoe } from '../../types/Shoes';
 
 interface IProps {
     brand: string;

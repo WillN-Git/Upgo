@@ -1,9 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import { Dimensions, Animated, View } from 'react-native';
 import { Box, useColorMode, Text } from 'native-base';
-import useBrands from '../hooks/useBrands';
-import { useStore } from '../hooks';
-import { Brand } from '../types';
+import { useStore, useBrands } from '../../hooks';
+import { Brand } from '../../types';
 
 const { width } = Dimensions.get('screen');
 

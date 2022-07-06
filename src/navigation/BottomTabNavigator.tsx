@@ -1,11 +1,11 @@
 import React, { ComponentProps } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Feather as Icon } from '@expo/vector-icons';
-import { useColorMode, useColorModeValue } from 'native-base';
+import { useColorMode } from 'native-base';
 
 // Screens
 import { HomeScreen, SearchScreen, FavoriteScreen } from '../screens';
-import Header from '../containers/Header';
+import { Header } from '../components';
 
 const BottomTab = createBottomTabNavigator();
 
