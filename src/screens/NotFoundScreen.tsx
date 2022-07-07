@@ -9,7 +9,7 @@ export default function NotFoundScreen() {
     return (
         <Center h="full" bg="primary.700">
             <Lottie
-                source={require('../assets/page-not-found.json')}
+                source={require('../../assets/page-not-found.json')}
                 autoPlay
                 loop
             />

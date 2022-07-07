@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 export default function SearchBar() {
     return (
         <Input
-            placeholder="Search People & Places"
+            placeholder="Rechercher..."
             width="80%"
             m="auto"
             mt={10}

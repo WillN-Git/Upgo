@@ -6,6 +6,7 @@ import { useColorMode } from 'native-base';
 // Screens
 import { HomeScreen, SearchScreen, FavoriteScreen } from '../screens';
 import { Header } from '../components';
+import { View } from 'react-native';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -14,23 +15,29 @@ export default function BottomTabNavigator() {
 
     // Tab Bar Options
     const commonOptions = {
+        headerShown: false,
         headerTitle: () => <Header />,
         headerStyle: {
-            backgroundColor: colorMode === 'light' ? 'white' : '#1e293b',
+            backgroundColor: colorMode === 'light' ? '#f4f4f5' : '#1e293b',
         },
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: 'white',
+        tabBarInactiveTintColor: 'gray',
         tabBarStyle: {
-            height: 80,
-            borderColor: 'transparent',
-            backgroundColor: colorMode === 'light' ? 'white' : '#1e293b',
+            height: 55,
+            position: 'absolute',
+            bottom: 15,
+            left: 20,
+            right: 20,
+            borderColor: 'none',
+            borderWidth: 0,
+            borderRadius: 100,
+            backgroundColor: colorMode === 'light' ? '#000' : '#1e293b',
         },
     };
 
     return (
-        <BottomTab.Navigator
-            initialRouteName="Home"
-            // screenOptions={{ headerStyle: { backgroundColor: 'gray' } }}
-            // screenOptions={{ headerShown: false }}
-        >
+        <BottomTab.Navigator initialRouteName="Home">
             <BottomTab.Screen
                 name="Home"
                 component={HomeScreen}
@@ -59,9 +66,9 @@ export default function BottomTabNavigator() {
                 options={{
                     ...commonOptions,
                     title: 'Favorite',
-                    tabBarIcon: ({ color }) => (
-                        <TabBarIcon name="heart" color={color} />
-                    ),
+                    tabBarIcon: ({ color }) => {
+                        return <TabBarIcon name="heart" color={color} />;
+                    },
                 }}
             />
         </BottomTab.Navigator>
@@ -77,5 +84,5 @@ function TabBarIcon(props: {
     name: ComponentProps<typeof Icon>['name'],
     color: string,
 }) {
-    return <Icon size={30} {...props} />;
+    return <Icon size={24} {...props} />;
 }

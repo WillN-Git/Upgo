@@ -1,16 +1,57 @@
-import React, { useState } from 'react';
-import { Text, Modal, Input, Button, VStack, FormControl } from 'native-base';
+import React, { useMemo, useState } from 'react';
+import { Modal, Input, Button, FormControl } from 'native-base';
+import { Feather as Icon } from '@expo/vector-icons';
+import { Dimensions } from 'react-native';
+import { MotiPressable } from 'moti/interactions';
+
+const { height: HEIGHT } = Dimensions.get('screen');
 
 export default function Filter() {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <>
+            <MotiPressable
+                style={{
+                    width: 60,
+                    height: 60,
+                    // position: 'absolute',
+                    // top: (HEIGHT * 2) / 3,
+                    // right: 20,
+                    borderRadius: 100,
+                    backgroundColor: 'black',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    alignSelf: 'flex-end',
+                }}
+                onPress={() => {
+                    setModalVisible(!modalVisible);
+                }}
+                animate={useMemo(
+                    () =>
+                        ({ pressed }) => {
+                            'worklet';
+
+                            return {
+                                scale: pressed ? 0.7 : 1,
+                            };
+                        },
+                    []
+                )}
+            >
+                <Icon
+                    name="sliders"
+                    color="white"
+                    size={25}
+                    style={{ transform: [{ rotateZ: '90deg' }] }}
+                />
+            </MotiPressable>
+
             <Modal
                 isOpen={modalVisible}
                 onClose={() => setModalVisible(false)}
                 avoidKeyboard
-                justifyContent="flex-end"
+                justifyContent="center"
                 bottom="4"
                 size="lg"
             >
@@ -37,19 +78,6 @@ export default function Filter() {
                     </Modal.Footer>
                 </Modal.Content>
             </Modal>
-            <VStack space={8} alignItems="center">
-                <Button
-                    w="104"
-                    onPress={() => {
-                        setModalVisible(!modalVisible);
-                    }}
-                >
-                    Open Modal
-                </Button>
-                <Text textAlign="center">
-                    Open modal and focus on the input element to see the effect.
-                </Text>
-            </VStack>
         </>
     );
 }

@@ -1,12 +1,15 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Box, Text } from 'native-base';
+import { Searchbar, Filter } from '../components';
 
 interface SearchScreenProps {}
 
 export default function SearchScreen() {
     return (
-        <View>
-            <Text>SearchScreen</Text>
-        </View>
+        <Box pt={5} _dark={{ bg: 'blueGray.800' }} _light={{ bg: 'gray.100' }}>
+            <Searchbar />
+
+            <Filter />
+        </Box>
     );
 }

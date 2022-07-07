@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { extendTheme, NativeBaseProvider } from 'native-base';
-import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+import { Box, extendTheme, NativeBaseProvider } from 'native-base';
+import { useFonts, Inter_700Bold, Inter_900Black } from '@expo-google-fonts/inter';
 import { Roboto_400Regular } from '@expo-google-fonts/roboto';
 
 // Components
@@ -33,6 +33,7 @@ export default function App() {
     
     // Fonts Loading
     const [fontsLoaded] = useFonts({
+        Inter_700Bold,
         Inter_900Black,
         Roboto_400Regular,
     });
@@ -54,7 +55,7 @@ export default function App() {
                 ) : (
                     <Navigation />
                 )}
-                <StatusBar style="auto" />
+                <StatusBar style="light" backgroundColor="black" />
             </NativeBaseProvider>
         </QueryClientProvider>
     );

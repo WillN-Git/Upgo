@@ -4,6 +4,7 @@ import Filter from './Filter';
 import Searchbar from './Searchbar';
 import ToggleDarkMode from './ToggleDarkMode';
 import MostPopularShoe from './MostPopularShoe';
+import BottomBarShadow from './BottomBarShadow';
 
 // Lists
 import BrandList from './lists/BrandList';
@@ -23,5 +24,6 @@ export {
     ShoesList,
     Searchbar,
     ToggleDarkMode,
+    BottomBarShadow,
     MostPopularShoe,
 };

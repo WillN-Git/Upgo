@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { Dimensions, Animated, View } from 'react-native';
 import { Box, useColorMode, Text } from 'native-base';
 import { useStore, useBrands } from '../../hooks';
@@ -24,16 +24,7 @@ export default function BrandList() {
     // Switch brand
     const changeBrand = useStore((state) => state.changeBrand);
     const { data, error, isSuccess, isLoading } = useBrands();
-
-    useEffect(() => {
-        scrollX.addListener((offset) => {
-            const index = Math.ceil(offset.value / ITEM_SIZE);
-
-            if (data) {
-                changeBrand(data[index].name);
-            }
-        });
-    }, [scrollX, data]);
+    const [dragEnded, setDragEnded] = useState(false);
 
     // List Item config
     const ITEM_SIZE = width * 0.38;
@@ -70,11 +61,10 @@ export default function BrandList() {
                 <Animated.Text
                     style={[
                         {
-                            fontFamily: 'Inter_900Black',
-                            fontWeight: '900',
-                            fontSize: 25,
-                            textTransform: 'uppercase',
+                            fontFamily: 'Inter_700Bold',
+                            fontSize: 20,
                             textAlign: 'center',
+                            textTransform: 'uppercase',
                             width: ITEM_SIZE,
                             color: colorMode === 'light' ? 'black' : 'white',
                         },
@@ -96,7 +86,14 @@ export default function BrandList() {
     };
 
     return (
-        <Box minHeight={25}>
+        <Box
+            minHeight={25}
+            bg="white"
+            my={5}
+            borderColor="black"
+            borderTopWidth={10}
+            borderBottomWidth={10}
+        >
             {isLoading && <Text>Loading...</Text>}
 
             {error && <Text>An error occured {error}</Text>}
@@ -112,8 +109,21 @@ export default function BrandList() {
                     decelerationRate="fast"
                     snapToInterval={ITEM_SIZE}
                     contentContainerStyle={{ paddingHorizontal: ITEM_SPACING }}
-                    keyExtractor={(item) => `brand-category-${item}`}
+                    keyExtractor={(item) => `brand-category-${item.name}`}
                     renderItem={renderItem}
+                    onScrollEndDrag={() => {
+                        setDragEnded(true);
+                    }}
+                    onMomentumScrollEnd={(ev) => {
+                        const index = Math.ceil(
+                            ev.nativeEvent.contentOffset.x / ITEM_SIZE
+                        );
+
+                        if (data && dragEnded) {
+                            changeBrand(data[index].name);
+                            setDragEnded(false);
+                        }
+                    }}
                 />
             )}
         </Box>
