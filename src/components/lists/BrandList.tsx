@@ -76,11 +76,11 @@ export default function BrandList() {
                 >
                     {item.name}
                 </Animated.Text>
-                <Animated.Text
+                {/* <Animated.Text
                     style={[{ textAlign: 'center' }, { opacity: opacity2 }]}
                 >
                     {item.qty}
-                </Animated.Text>
+                </Animated.Text> */}
             </View>
         );
     };

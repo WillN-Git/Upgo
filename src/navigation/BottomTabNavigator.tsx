@@ -4,9 +4,13 @@ import { Feather as Icon } from '@expo/vector-icons';
 import { useColorMode } from 'native-base';
 
 // Screens
-import { HomeScreen, SearchScreen, FavoriteScreen } from '../screens';
+import {
+    HomeScreen,
+    SearchScreen,
+    FavoriteScreen,
+    CalendarScreen,
+} from '../screens';
 import { Header } from '../components';
-import { View } from 'react-native';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -57,6 +61,17 @@ export default function BottomTabNavigator() {
                     title: 'Search',
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="search" color={color} />
+                    ),
+                }}
+            />
+            <BottomTab.Screen
+                name="Calendar"
+                component={CalendarScreen}
+                options={{
+                    ...commonOptions,
+                    title: 'Search',
+                    tabBarIcon: ({ color }) => (
+                        <TabBarIcon name="calendar" color={color} />
                     ),
                 }}
             />

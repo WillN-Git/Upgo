@@ -8,11 +8,11 @@ export default function SearchBar() {
             placeholder="Rechercher..."
             width="80%"
             m="auto"
-            mt={10}
             borderRadius="4"
             py="3"
             px="1"
             fontSize="14"
+            focusOutlineColor="black"
             InputLeftElement={
                 <Icon
                     m="2"
@@ -20,15 +20,6 @@ export default function SearchBar() {
                     size="6"
                     color="gray.400"
                     as={<MaterialIcons name="search" />}
-                />
-            }
-            InputRightElement={
-                <Icon
-                    m="2"
-                    mr="3"
-                    size="6"
-                    color="gray.400"
-                    as={<MaterialIcons name="mic" />}
                 />
             }
         />

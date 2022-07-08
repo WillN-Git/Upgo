@@ -5,6 +5,7 @@ import Searchbar from './Searchbar';
 import ToggleDarkMode from './ToggleDarkMode';
 import MostPopularShoe from './MostPopularShoe';
 import BottomBarShadow from './BottomBarShadow';
+import Calendar from './Calendar';
 
 // Lists
 import BrandList from './lists/BrandList';
@@ -23,6 +24,7 @@ export {
     Loader,
     ShoesList,
     Searchbar,
+    Calendar,
     ToggleDarkMode,
     BottomBarShadow,
     MostPopularShoe,

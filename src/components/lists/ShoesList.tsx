@@ -8,29 +8,43 @@ import {
     Center,
     FlatList,
     VStack,
-    View,
+    Pressable,
 } from 'native-base';
-import { API_URL } from '../../utils/constants';
+import { API_BROWSE_URL, INITIAL_TIMESTAMP } from '../../utils/constants';
 import { Shoe } from '../../types/Shoes';
 import { AntDesign as Icon } from '@expo/vector-icons';
 import LikeBtn from '../LikeBtn';
-import { MotiView } from 'moti';
+import { CompositeNavigationProp } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { RootBottomTabParamList, RootStackParamList } from '../../types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const { width } = Dimensions.get('screen');
 
 interface IProps {
     brand: string;
+    navigation: CompositeNavigationProp<
+        BottomTabNavigationProp<RootBottomTabParamList, 'Home', undefined>,
+        NativeStackNavigationProp<RootStackParamList, string, undefined>
+    >;
 }
 
-export default function ShoesList({ brand }: IProps) {
+export default function ShoesList({ brand, navigation }: IProps) {
     const [shoes, setShoes] = useState<Shoe[]>();
 
     // Fetch shoes
     const getShoes = async () => {
-        await fetch(`${API_URL}/browse?productCategory=sneakers&brand=${brand}`)
+        await fetch(
+            `${API_BROWSE_URL}&releaseTime=gte-${INITIAL_TIMESTAMP}&brand=${brand}`
+        )
             .then((res) => res.json())
             .then((res) => {
-                setShoes(res.Products);
+                setShoes(
+                    res.Products.splice(
+                        0,
+                        res.Products.length > 100 ? 100 : res.Products.length
+                    )
+                );
             });
     };
 
@@ -54,7 +68,10 @@ export default function ShoesList({ brand }: IProps) {
         };
 
         return (
-            <Box w={THUMB_BOX_SIZE}>
+            <Pressable
+                onPress={() => navigation.push('Detail')}
+                w={THUMB_BOX_SIZE}
+            >
                 {shoes && (
                     <Box
                         p={5}
@@ -146,7 +163,7 @@ export default function ShoesList({ brand }: IProps) {
                         </HStack>
                     </Box>
                 )}
-            </Box>
+            </Pressable>
         );
     };
 

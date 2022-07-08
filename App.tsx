@@ -38,7 +38,7 @@ export default function App() {
         Roboto_400Regular,
     });
 
-    const loadCondition = !endOfLoading || !fontsLoaded;
+    const loadCondition = !fontsLoaded; // !endOfLoading || !fontsLoaded
 
     // Loader
     useEffect(() => {
