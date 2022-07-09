@@ -1,15 +1,27 @@
-import LikeBtn from './LikeBtn';
 import Loader from './Loader';
-import Filter from './Filter';
-import Searchbar from './Searchbar';
 import ToggleDarkMode from './ToggleDarkMode';
-import MostPopularShoe from './MostPopularShoe';
-import BottomBarShadow from './BottomBarShadow';
-import Calendar from './Calendar';
 
-// Lists
-import BrandList from './lists/BrandList';
-import ShoesList from './lists/ShoesList';
+// Shared
+import Title from './shared/Title';
+import LikeBtn from './shared/LikeBtn';
+import BottomBarShadow from './shared/BottomBarShadow';
+
+// Home
+import BrandList from './home/BrandList';
+import ShoesList from './home/ShoesList';
+import MostPopularShoe from './home/MostPopularShoe';
+
+// Search
+import Filter from './search/Filter';
+import Searchbar from './search/Searchbar';
+import BottomSheet from './search/BottomSheet';
+import InputRange from './search/InputRange';
+
+// Calendar
+import Calendar from './calendar/Calendar';
+
+// Favorite
+//....
 
 // Containers
 import Header from './containers/Header';
@@ -20,11 +32,14 @@ export {
     Header,
     ShoesBox,
     Filter,
+    Title,
     LikeBtn,
     Loader,
     ShoesList,
     Searchbar,
     Calendar,
+    BottomSheet,
+    InputRange,
     ToggleDarkMode,
     BottomBarShadow,
     MostPopularShoe,

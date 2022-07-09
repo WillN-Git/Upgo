@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Pressable, Image, Text, Center } from 'native-base';
 import { Agenda } from 'react-native-calendars';
-import { API_BROWSE_URL } from '../utils/constants';
-import { RootBottomTabParamList, RootStackParamList, Shoe } from '../types';
+import { API_BROWSE_URL } from '../../utils/constants';
+import { RootBottomTabParamList, RootStackParamList, Shoe } from '../../types';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';

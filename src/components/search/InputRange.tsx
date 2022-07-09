@@ -6,8 +6,8 @@ import {
     PanGestureHandler,
 } from 'react-native-gesture-handler';
 import Animated, { call, useCode } from 'react-native-reanimated';
-import { usePanGesture } from '../hooks';
-import { THRESHOLD, CURSOR_SIZE } from '../hooks/usePanGesture';
+import { usePanGesture } from '../../hooks';
+import { THRESHOLD, CURSOR_SIZE } from '../../hooks/usePanGesture';
 
 const { width: WIDTH } = Dimensions.get('screen');
 

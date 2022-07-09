@@ -13,7 +13,7 @@ import {
 import { API_BROWSE_URL, INITIAL_TIMESTAMP } from '../../utils/constants';
 import { Shoe } from '../../types/Shoes';
 import { AntDesign as Icon } from '@expo/vector-icons';
-import LikeBtn from '../LikeBtn';
+import LikeBtn from '../shared/LikeBtn';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RootBottomTabParamList, RootStackParamList } from '../../types';

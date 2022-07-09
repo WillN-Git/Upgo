@@ -1,13 +1,11 @@
 import React from 'react';
-import { Dimensions } from 'react-native';
 import { Text, Center } from 'native-base';
 import Lottie from 'lottie-react-native';
-
-const { height } = Dimensions.get('screen');
+import { FULL_HEIGHT } from '../utils/constants';
 
 export default function NotFoundScreen() {
     return (
-        <Center h="full" bg="primary.700">
+        <Center h="full" bg="white">
             <Lottie
                 source={require('../../assets/page-not-found.json')}
                 autoPlay
@@ -18,7 +16,7 @@ export default function NotFoundScreen() {
                 fontFamily="Inter_900Black"
                 fontSize="6xl"
                 position="absolute"
-                top={height / 4}
+                top={FULL_HEIGHT / 4}
                 color="white"
             >
                 Oops ! 😅

@@ -88,6 +88,7 @@ export default function SearchScreen({
                 <Filter />
             </HStack>
 
+            {/* Shoes List */}
             {data && (
                 <Animated.FlatList
                     data={data}
