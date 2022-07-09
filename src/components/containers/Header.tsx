@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, HStack, VStack } from 'native-base';
-import { Feather as Icon } from '@expo/vector-icons';
 import ToggleDarkMode from '../ToggleDarkMode';
 
 export default function Header() {

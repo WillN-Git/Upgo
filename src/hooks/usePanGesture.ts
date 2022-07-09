@@ -1,10 +1,7 @@
 import { useRef, useMemo } from 'react';
 import { Dimensions } from 'react-native';
+import { State } from 'react-native-gesture-handler';
 import {
-    PanGestureHandlerGestureEvent,
-    State,
-} from 'react-native-gesture-handler';
-import Animated, {
     Value,
     event,
     set,
@@ -25,7 +22,7 @@ export default function usePanGesture(initialPos: number) {
     const offsetX = useRef(new Value(initialPos)).current;
 
     const onGestureHandle = useMemo(() => {
-        return Animated.event([
+        return event([
             {
                 nativeEvent: ({ translationX: x, state }) =>
                     block([
@@ -52,25 +49,3 @@ export default function usePanGesture(initialPos: number) {
 
     return { transX, onGestureHandle };
 }
-
-// const transX = useSharedValue<number>(0);
-// const offsetX = useSharedValue<number>(0);
-
-// const onGestureHandle =
-//     useAnimatedGestureHandler<PanGestureHandlerGestureEvent>({
-//         onActive: (ev) => {
-//             transX.value = ev.translationX;
-//             const x = ev.translationX;
-
-//             if (offsetX.value + x < 0) {
-//                 transX.value = 0;
-//             } else if (offsetX.value > x) {
-//                 transX.value = MAX_WIDTH - 20;
-//             } else {
-//                 transX.value = offsetX.value + x;
-//             }
-//         },
-//         onEnd: (ev) => {
-//             offsetX.value += ev.translationX;
-//         },
-//     });

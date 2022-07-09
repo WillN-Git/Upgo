@@ -90,11 +90,6 @@ export default function BottomTabNavigator() {
     );
 }
 
-/**
- * Icon for the tabs
- * @param props: { name: string, color: string }
- * @returns <Icon />
- */
 function TabBarIcon(props: {
     name: ComponentProps<typeof Icon>['name'],
     color: string,

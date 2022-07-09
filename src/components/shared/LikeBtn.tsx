@@ -1,7 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import { MotiPressable } from 'moti/interactions';
-import { StyleProp, ViewProps } from 'react-native';
 
 export default function LikeBtn() {
     type inameType = 'heart' | 'heart-o';

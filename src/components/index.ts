@@ -6,6 +6,12 @@ import Title from './shared/Title';
 import LikeBtn from './shared/LikeBtn';
 import BottomBarShadow from './shared/BottomBarShadow';
 
+// Detail
+import Showcase from './detail/Showcase';
+import ShoeTags from './detail/ShoeTags';
+import Reviewers from './detail/Reviewers';
+import DescribeShoe from './detail/DescribeShoe';
+
 // Home
 import BrandList from './home/BrandList';
 import ShoesList from './home/ShoesList';
@@ -35,11 +41,15 @@ export {
     Title,
     LikeBtn,
     Loader,
+    Showcase,
     ShoesList,
     Searchbar,
     Calendar,
+    ShoeTags,
+    Reviewers,
     BottomSheet,
     InputRange,
+    DescribeShoe,
     ToggleDarkMode,
     BottomBarShadow,
     MostPopularShoe,
