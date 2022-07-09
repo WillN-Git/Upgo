@@ -12,7 +12,7 @@ export default function Calendar({
 }: {
     navigation: CompositeNavigationProp<
         BottomTabNavigationProp<RootBottomTabParamList, 'Calendar', undefined>,
-        NativeStackNavigationProp<RootStackParamList, string, undefined>
+        NativeStackNavigationProp<RootStackParamList, 'Root', undefined>
     >,
 }) {
     const [items, setItems] = useState<{ [key: string]: Shoe[] }>({});

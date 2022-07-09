@@ -21,6 +21,7 @@ import MostPopularShoe from './home/MostPopularShoe';
 import Filter from './search/Filter';
 import Searchbar from './search/Searchbar';
 import BottomSheet from './search/BottomSheet';
+import CustomBadge from './search/CustomBadge';
 import InputRange from './search/InputRange';
 
 // Calendar
@@ -48,6 +49,7 @@ export {
     ShoeTags,
     Reviewers,
     BottomSheet,
+    CustomBadge,
     InputRange,
     DescribeShoe,
     ToggleDarkMode,

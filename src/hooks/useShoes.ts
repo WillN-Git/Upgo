@@ -6,12 +6,9 @@ import { Shoe } from '../types';
 const LAST_3_MOUNTH_TIMESTAMP = 1646694004;
 
 const getShoes = async () => {
-    const { data } = await axios.get(
-        `${API_BROWSE_URL}&releaseTime=gte-${LAST_3_MOUNTH_TIMESTAMP}`,
-        {
-            withCredentials: true,
-        }
-    );
+    const { data } = await axios.get(`${API_BROWSE_URL}`, {
+        withCredentials: true,
+    });
 
     const shoes: Shoe[] = data.Products;
 

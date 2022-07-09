@@ -2,7 +2,11 @@ import React from 'react';
 import { Input, Icon } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function SearchBar() {
+interface IProps {
+    handleChange: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function SearchBar({ handleChange }: IProps) {
     return (
         <Input
             placeholder="Rechercher..."
@@ -13,6 +17,7 @@ export default function SearchBar() {
             px="1"
             fontSize="14"
             focusOutlineColor="black"
+            onChange={(ev) => handleChange(ev.nativeEvent.text)}
             InputLeftElement={
                 <Icon
                     m="2"

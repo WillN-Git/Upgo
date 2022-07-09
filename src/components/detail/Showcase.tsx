@@ -35,16 +35,30 @@ export default function Showcase({
             </Center>
 
             <VStack>
-                <Text
-                    fontSize="lg"
-                    textDecorationLine="line-through"
-                    textDecorationColor="black"
-                >
-                    {lastPrice}€
-                </Text>
-                <Text mt={-2} fontSize="3xl" fontFamily="Inter_700Bold">
-                    {currentPrice}€
-                </Text>
+                {currentPrice >= lastPrice && (
+                    <Text mt={-2} fontSize="3xl" fontFamily="Inter_700Bold">
+                        {currentPrice}€
+                    </Text>
+                )}
+                {currentPrice === 0 && (
+                    <Text mt={-2} fontSize="3xl" fontFamily="Inter_700Bold">
+                        {lastPrice}€
+                    </Text>
+                )}
+                {!(currentPrice >= lastPrice || currentPrice === 0) && (
+                    <>
+                        <Text
+                            fontSize="lg"
+                            textDecorationLine="line-through"
+                            textDecorationColor="black"
+                        >
+                            {lastPrice}€
+                        </Text>
+                        <Text mt={-2} fontSize="3xl" fontFamily="Inter_700Bold">
+                            {currentPrice}€
+                        </Text>
+                    </>
+                )}
             </VStack>
         </>
     );

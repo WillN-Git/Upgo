@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Dimensions } from 'react-native';
+import React, { useState, useMemo } from 'react';
 import {
     Box,
     Text,
@@ -10,7 +9,11 @@ import {
     VStack,
     Pressable,
 } from 'native-base';
-import { API_BROWSE_URL, INITIAL_TIMESTAMP } from '../../utils/constants';
+import {
+    API_BROWSE_URL,
+    INITIAL_TIMESTAMP,
+    MAX_WIDTH,
+} from '../../utils/constants';
 import { Shoe } from '../../types/Shoes';
 import { AntDesign as Icon } from '@expo/vector-icons';
 import LikeBtn from '../shared/LikeBtn';
@@ -19,14 +22,13 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RootBottomTabParamList, RootStackParamList } from '../../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useStore } from '../../hooks';
-
-const { width } = Dimensions.get('screen');
+import { dollarToEuro } from '../../utils/helpers';
 
 interface IProps {
     brand: string;
     navigation: CompositeNavigationProp<
         BottomTabNavigationProp<RootBottomTabParamList, 'Home', undefined>,
-        NativeStackNavigationProp<RootStackParamList, string, undefined>
+        NativeStackNavigationProp<RootStackParamList, 'Root', undefined>
     >;
 }
 
@@ -75,8 +77,8 @@ export default function ShoesList({ brand, navigation }: IProps) {
         }
     }, [brand]);
 
-    const THUMB_BOX_SIZE = width * 0.5 + 30;
-    const THUMB_BOX_MARGIN = (width - THUMB_BOX_SIZE) / 2;
+    const THUMB_BOX_SIZE = MAX_WIDTH * 0.5 + 30;
+    const THUMB_BOX_MARGIN = (MAX_WIDTH - THUMB_BOX_SIZE) / 2;
     const THUMB_SIZE = THUMB_BOX_SIZE * 0.9;
 
     const renderItem = ({ item }: { item: Shoe, index: number }) => {
@@ -146,7 +148,10 @@ export default function ShoesList({ brand, navigation }: IProps) {
                             />
 
                             <Text ml={1} fontWeight="bold">
-                                {item.retailPrice}€
+                                {item.retailPrice != 0
+                                    ? dollarToEuro(item.retailPrice)
+                                    : dollarToEuro(item.market.lastSale)}
+                                €
                             </Text>
                         </HStack>
                         <Center>

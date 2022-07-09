@@ -1,6 +1,6 @@
 import { Dimensions } from 'react-native';
 
-export const { width: FULL_WIDTH, height: FULL_HEIGHT } =
+export const { width: MAX_WIDTH, height: MAX_HEIGHT } =
     Dimensions.get('screen');
 
 export const API_URL = 'https://stockx.com/api';

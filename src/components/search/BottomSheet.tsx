@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
-import {
-    Box,
-    Text,
-    Badge,
-    Center,
-    HStack,
-    Select,
-    Actionsheet,
-} from 'native-base';
+import { Box, Text, Center, HStack, Select, Actionsheet } from 'native-base';
 import InputRange from './InputRange';
+import CustomBadge from './CustomBadge';
 
 interface IProps {
     onClose: () => void;
@@ -124,33 +117,5 @@ function Title({ text }: { text: string }) {
                 {text}
             </Text>
         </Center>
-    );
-}
-
-function CustomBadge({
-    text,
-    uppercase,
-    active,
-}: {
-    text: string,
-    uppercase?: boolean,
-    active?: boolean,
-}) {
-    return (
-        <Badge
-            px={5}
-            py={3.5}
-            mx={1}
-            opacity={active ? 1 : 0.3}
-            borderColor="black"
-            borderWidth={1}
-            borderRadius="lg"
-        >
-            {uppercase ? (
-                <Text textTransform="uppercase">{text}</Text>
-            ) : (
-                <Text>{text}</Text>
-            )}
-        </Badge>
     );
 }

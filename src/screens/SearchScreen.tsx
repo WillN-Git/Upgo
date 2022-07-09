@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { Animated, Pressable, StyleSheet } from 'react-native';
 import { Box, Text, HStack, Image, VStack } from 'native-base';
 import { Searchbar, Filter } from '../components';
 import { useShoes } from '../hooks';
 import { useRef } from 'react';
 import { RootBottomTabScreenProps, Shoe } from '../types';
+import { dollarToEuro } from '../utils/helpers';
 
 const ITEM_SIZE = 120;
 const ITEM_SPACING = 20;
@@ -15,6 +16,19 @@ export default function SearchScreen({
 }: RootBottomTabScreenProps<'Search'>) {
     const { data, error, isSuccess, isLoading } = useShoes();
 
+    // Search system
+    const [searchTerm, setSearchTerm] = useState('');
+    const filteredData = useMemo(() => {
+        return data?.filter((shoe) => {
+            return shoe.shoe
+                .toLocaleLowerCase()
+                .includes(searchTerm.toLocaleLowerCase());
+        });
+    }, [searchTerm]);
+
+    console.log('FILTERED DATA => ', filteredData);
+
+    // Scroll Animtion params
     const scrollY = useRef(new Animated.Value(0)).current;
     const ITEM_FULL_SIZE = ITEM_SIZE + ITEM_SPACING;
 
@@ -71,7 +85,12 @@ export default function SearchScreen({
                                 {item.releaseDate.split('-')[0]}
                             </Text>
 
-                            <Text>{item.retailPrice}€</Text>
+                            <Text>
+                                {item.retailPrice
+                                    ? dollarToEuro(item.retailPrice)
+                                    : dollarToEuro(item.market.lastSale)}
+                                €
+                            </Text>
                         </VStack>
                     </HStack>
                 </Animated.View>
@@ -83,7 +102,7 @@ export default function SearchScreen({
         <Box pt="16">
             {/* Header */}
             <HStack px={5}>
-                <Searchbar />
+                <Searchbar handleChange={setSearchTerm} />
 
                 <Filter />
             </HStack>
@@ -91,7 +110,7 @@ export default function SearchScreen({
             {/* Shoes List */}
             {data && (
                 <Animated.FlatList
-                    data={data}
+                    data={filteredData ? filteredData : data}
                     keyExtractor={(item) => item.id}
                     renderItem={renderItem}
                     onScroll={Animated.event(

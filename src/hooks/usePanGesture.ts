@@ -1,5 +1,4 @@
 import { useRef, useMemo } from 'react';
-import { Dimensions } from 'react-native';
 import { State } from 'react-native-gesture-handler';
 import {
     Value,
@@ -12,8 +11,8 @@ import {
     lessThan,
     greaterThan,
 } from 'react-native-reanimated';
+import { MAX_WIDTH } from '../utils/constants';
 
-const { width: MAX_WIDTH } = Dimensions.get('screen');
 export const THRESHOLD = 80;
 export const CURSOR_SIZE = 20;
 

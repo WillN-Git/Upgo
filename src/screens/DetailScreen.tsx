@@ -3,6 +3,7 @@ import { Box, Text, ScrollView, VStack } from 'native-base';
 import { DescribeShoe, Reviewers, ShoeTags, Showcase } from '../components';
 import { RootStackScreenProps } from '../types';
 import ActionBar from '../components/detail/ActionBar';
+import { dollarToEuro } from '../utils/helpers';
 
 export default function DetailScreen({
     navigation,
@@ -21,7 +22,7 @@ export default function DetailScreen({
 
     return (
         <>
-            <ScrollView bg="white" showsHorizontalScrollIndicator={false}>
+            <ScrollView bg="white" showsVerticalScrollIndicator={false}>
                 {/* Header */}
                 <VStack px={5}>
                     <Text fontSize="3xl" fontFamily="Inter_900Black">
@@ -62,10 +63,4 @@ export default function DetailScreen({
             <ActionBar />
         </>
     );
-}
-
-function dollarToEuro(dollar: number) {
-    const euro = Math.round(dollar * 0.98);
-
-    return euro;
 }
