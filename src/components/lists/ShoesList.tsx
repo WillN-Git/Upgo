@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Dimensions } from 'react-native';
 import {
     Box,
@@ -18,6 +18,7 @@ import { CompositeNavigationProp } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RootBottomTabParamList, RootStackParamList } from '../../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useStore } from '../../hooks';
 
 const { width } = Dimensions.get('screen');
 
@@ -31,6 +32,12 @@ interface IProps {
 
 export default function ShoesList({ brand, navigation }: IProps) {
     const [shoes, setShoes] = useState<Shoe[]>();
+    const shoesStoredBrand: Array<{ name: string, shoes: Shoe[] }> = useStore(
+        (state) => state.shoesStoredBrand
+    );
+    const setShoesStoreBrand: (brand: string, shoes: Shoe[]) => void = useStore(
+        (state) => state.setShoesStoreBrand
+    );
 
     // Fetch shoes
     const getShoes = async () => {
@@ -45,11 +52,27 @@ export default function ShoesList({ brand, navigation }: IProps) {
                         res.Products.length > 100 ? 100 : res.Products.length
                     )
                 );
+
+                setShoesStoreBrand(
+                    brand,
+                    res.Products.splice(
+                        0,
+                        res.Products.length > 100 ? 100 : res.Products.length
+                    )
+                );
             });
     };
 
-    useEffect(() => {
-        getShoes();
+    useMemo(() => {
+        const brandStored = shoesStoredBrand.find(
+            (item) => item.name === brand
+        );
+
+        if (!brandStored) {
+            getShoes();
+        } else {
+            setShoes(brandStored.shoes);
+        }
     }, [brand]);
 
     const THUMB_BOX_SIZE = width * 0.5 + 30;
@@ -69,7 +92,7 @@ export default function ShoesList({ brand, navigation }: IProps) {
 
         return (
             <Pressable
-                onPress={() => navigation.push('Detail')}
+                onPress={() => navigation.push('Detail', item)}
                 w={THUMB_BOX_SIZE}
             >
                 {shoes && (

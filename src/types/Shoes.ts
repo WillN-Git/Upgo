@@ -26,4 +26,5 @@ export interface ShoeMediaImage {
 export interface ShoeMarket {
     numberOfAsks: number;
     createdAt: string;
+    lastSale: number;
 }

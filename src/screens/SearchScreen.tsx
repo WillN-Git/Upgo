@@ -1,15 +1,18 @@
 import React from 'react';
-import { Animated, StyleSheet } from 'react-native';
+import { Animated, Pressable, StyleSheet } from 'react-native';
 import { Box, Text, HStack, Image, VStack } from 'native-base';
 import { Searchbar, Filter } from '../components';
 import { useShoes } from '../hooks';
 import { useRef } from 'react';
-import { Shoe } from '../types';
+import { RootBottomTabScreenProps, Shoe } from '../types';
 
 const ITEM_SIZE = 120;
-const ITEM_SPACING = 10;
+const ITEM_SPACING = 20;
 
-export default function SearchScreen() {
+export default function SearchScreen({
+    navigation,
+    route,
+}: RootBottomTabScreenProps<'Search'>) {
     const { data, error, isSuccess, isLoading } = useShoes();
 
     const scrollY = useRef(new Animated.Value(0)).current;
@@ -34,14 +37,14 @@ export default function SearchScreen() {
         });
 
         return (
-            <>
+            <Pressable onPress={() => navigation.push('Detail', item)}>
                 <Animated.View
                     style={[
                         styles.container,
                         { opacity, transform: [{ scale }] },
                     ]}
                 >
-                    <HStack>
+                    <HStack alignItems="center">
                         <Box>
                             <Image
                                 source={{ uri: item.media.thumbUrl }}
@@ -52,16 +55,27 @@ export default function SearchScreen() {
                             />
                         </Box>
 
-                        <VStack>
-                            <Text>{item.shoe}</Text>
+                        <VStack ml={7}>
+                            <Text
+                                w="80%"
+                                fontWeight="bold"
+                                flexDirection="row"
+                                flexWrap="wrap"
+                            >
+                                {item.shoe}
+                            </Text>
 
-                            <Text>{item.releaseDate}</Text>
+                            <Text>
+                                {item.releaseDate.split('-')[2]}-
+                                {item.releaseDate.split('-')[1]}-
+                                {item.releaseDate.split('-')[0]}
+                            </Text>
 
-                            <Text>{item.retailPrice}</Text>
+                            <Text>{item.retailPrice}€</Text>
                         </VStack>
                     </HStack>
                 </Animated.View>
-            </>
+            </Pressable>
         );
     };
 
@@ -92,7 +106,10 @@ export default function SearchScreen() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: ITEM_SPACING / 2,
         paddingHorizontal: 10,
+        marginVertical: ITEM_SPACING / 2,
+        marginHorizontal: 20,
+        borderRadius: 15,
+        backgroundColor: 'white',
     },
 });

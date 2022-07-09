@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     Text,
@@ -11,11 +11,24 @@ import {
     Badge,
     Avatar,
 } from 'native-base';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, TouchableOpacity } from 'react-native';
 import { LikeBtn } from '../components';
+import { RootStackScreenProps } from '../types';
 
-export default function DetailScreen() {
+export default function DetailScreen({
+    navigation,
+    route,
+}: RootStackScreenProps<'Detail'>) {
     const THUMB_SIZE = 230;
+    const [readMore, setReadMore] = useState(true);
+    const { media, shoe, id, gender, retailPrice, description, _tags, market } =
+        route.params;
+
+    // Data Cleaning
+    const cleanDescription = description.replace(/(<br(\/|\s\/)?>)/g, '');
+    const cleanTags = _tags.map((tag) => tag.replace(/.*\|/g, ''));
+    const cleanLastPrice = dollarToEuro(market.lastSale);
+    const cleanPrice = dollarToEuro(retailPrice);
 
     return (
         <>
@@ -23,10 +36,12 @@ export default function DetailScreen() {
                 {/* Header */}
                 <VStack px={5}>
                     <Text fontSize="3xl" fontFamily="Inter_900Black">
-                        {'Adidas Yeezy\nBoost 700 Static'}
+                        {shoe.split(' ').map((v, index) => (
+                            <Text key={`${id}-text-${index}`}>{v} </Text>
+                        ))}
                     </Text>
                     <Text color="gray.500" fontStyle="italic">
-                        Men's Shoe
+                        <Text textTransform="capitalize">{gender}</Text>'s Shoe
                     </Text>
                 </VStack>
 
@@ -40,7 +55,7 @@ export default function DetailScreen() {
                         >
                             <Image
                                 source={{
-                                    uri: 'https://images.stockx.com/images/Vans-Old-Skool-Black-White-Product.jpg?fit=fill&bg=FFFFFF&w=140&h=100&fm=webp&auto=compress&trim=color&q=90&dpr=2&updated_at=1607043282',
+                                    uri: media.smallImageUrl,
                                 }}
                                 alt="Shoes"
                                 resizeMode="contain"
@@ -49,22 +64,56 @@ export default function DetailScreen() {
                             />
                         </Box>
                     </Center>
-                    <Text fontSize="3xl" fontFamily="Inter_700Bold">
-                        130€
-                    </Text>
+
+                    <VStack>
+                        <Text
+                            fontSize="lg"
+                            textDecorationLine="line-through"
+                            textDecorationColor="black"
+                        >
+                            {cleanLastPrice}€
+                        </Text>
+                        <Text mt={-2} fontSize="3xl" fontFamily="Inter_700Bold">
+                            {cleanPrice}€
+                        </Text>
+                    </VStack>
                 </VStack>
 
                 <VStack mt={5} px={5}>
                     {/* Description */}
-                    <Text fontSize="md" mb={3} fontFamily="Inter_700Bold">
-                        Description
-                    </Text>
-                    <Text numberOfLines={4}>
-                        {
-                            "One of Yeezy's most celebrated designs received a reflective makeover with the adidas Yeezy Boost 350 V2 Beluga Reflective.\n\n\nThe adidas Yeezy Boost 350 V2 Beluga Reflective builds off of the original Beluga colorway by adding reflective qualities and speckled orange accents to its Primeknit upper. Signature details like a Boost sole and orange side stripe complete the design.\n\n\nThe adidas Yeezy Boost 350 V2 Beluga Reflective released in December of 2021 and retailed for $240."
-                        }
-                    </Text>
-                    <Text fontSize="md" mb={3} fontFamily="Inter_700Bold">
+                    {description != '' && (
+                        <>
+                            <Text
+                                fontSize="md"
+                                mb={3}
+                                fontFamily="Inter_700Bold"
+                            >
+                                Description
+                            </Text>
+
+                            {readMore ? (
+                                <Text>{cleanDescription}</Text>
+                            ) : (
+                                <Text numberOfLines={4}>
+                                    {cleanDescription}
+                                </Text>
+                            )}
+
+                            <TouchableOpacity
+                                onPress={() => setReadMore(!readMore)}
+                                style={{ marginVertical: 10 }}
+                            >
+                                <Text
+                                    fontFamily="Roboto_500Medium"
+                                    textDecorationLine="underline"
+                                    textDecorationColor="black"
+                                >
+                                    {readMore ? 'Réduire.' : 'Lire plus...'}
+                                </Text>
+                            </TouchableOpacity>
+                        </>
+                    )}
+                    <Text fontSize="md" my={3} fontFamily="Inter_700Bold">
                         Tags
                     </Text>
                     {/* Tags */}
@@ -75,23 +124,24 @@ export default function DetailScreen() {
                             flexWrap: 'wrap',
                         }}
                     >
-                        {['Adidas', 'Men', 'Sneakers', 'Yeezy'].map(
-                            (item, index) => (
-                                <Badge
-                                    key={`tag-${index}`}
-                                    bg={`blueGray.${index + 1}00`}
-                                    px={5}
-                                    py={1}
-                                    borderRadius={100}
-                                    mx={1}
-                                >
-                                    <Text textAlign="center">item</Text>
-                                </Badge>
-                            )
-                        )}
+                        {cleanTags.map((item, index) => (
+                            <Badge
+                                key={`tag-${index}`}
+                                bg="gray.100"
+                                px={5}
+                                py={1}
+                                mt={1}
+                                borderRadius={100}
+                                borderColor="black"
+                                borderWidth={2}
+                                mx={1}
+                            >
+                                <Text textAlign="center">{item}</Text>
+                            </Badge>
+                        ))}
                     </View>
                     {/* Avatar */}
-                    <Text fontSize="md" mb={3} fontFamily="Inter_700Bold">
+                    <Text fontSize="md" my={3} fontFamily="Inter_700Bold">
                         Revues
                     </Text>
                     <Center>
@@ -205,4 +255,10 @@ export default function DetailScreen() {
             </HStack>
         </>
     );
+}
+
+function dollarToEuro(dollar: number) {
+    const euro = Math.round(dollar * 0.98);
+
+    return euro;
 }

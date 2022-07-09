@@ -1,52 +1,64 @@
-import React, { useState } from 'react';
-import { Box, Card, Pressable, Text } from 'native-base';
+import React, { useState, useEffect } from 'react';
+import { Pressable, Image, Text, Center } from 'native-base';
 import { Agenda } from 'react-native-calendars';
+import { API_BROWSE_URL } from '../utils/constants';
+import { RootBottomTabParamList, RootStackParamList, Shoe } from '../types';
+import { CompositeNavigationProp } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-function timeToString(time: number) {
-    const date = new Date(time);
-    return date.toISOString().split('T')[0];
-}
+export default function Calendar({
+    navigation,
+}: {
+    navigation: CompositeNavigationProp<
+        BottomTabNavigationProp<RootBottomTabParamList, 'Calendar', undefined>,
+        NativeStackNavigationProp<RootStackParamList, string, undefined>
+    >,
+}) {
+    const [items, setItems] = useState<{ [key: string]: Shoe[] }>({});
 
-export default function Calendar() {
-    const [items, setItems] = useState({});
+    const getData = async () => {
+        const fetchedData = await fetch(`${API_BROWSE_URL}&year=2022`).then(
+            (res) => res.json()
+        );
 
-    const loadItems = (day: DateData) => {
-        setTimeout(() => {
-            for (let i = -15; i < 85; i++) {
-                const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-                const strTime = timeToString(time);
+        const data: Shoe[] = fetchedData.Products;
 
-                if (!items[strTime]) {
-                    items[strTime] = [];
+        const mappedData = data.map((shoe) => ({ ...shoe }));
 
-                    const numItems = Math.floor(Math.random() * 3 + 1);
-                    for (let j = 0; j < numItems; j++) {
-                        items[strTime].push({
-                            name: 'Item for ' + strTime + ' #' + j,
-                            height: Math.max(
-                                50,
-                                Math.floor(Math.random() * 150)
-                            ),
-                            day: strTime,
-                        });
-                    }
-                }
-            }
+        const reduced = mappedData.reduce(
+            (acc: { [key: string]: Shoe[] }, currentValue: Shoe) => {
+                const { releaseDate, ...rest } = currentValue;
 
-            const newItems: AgendaSchedule = {};
-            Object.keys(items).forEach((key) => {
-                newItems[key] = items[key];
-            });
-            setItems(newItems);
-        }, 1000);
+                acc[releaseDate] = [{ releaseDate, ...rest }];
+
+                return acc;
+            },
+            {}
+        );
+
+        setItems(reduced);
     };
 
-    const renderItem = (item) => {
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const renderItem = (item: Shoe) => {
         return (
-            <Pressable>
-                <Box p={2} mt={17} shadow="9" bg="blueGray.100">
-                    <Text>{item.name}</Text>
-                </Box>
+            <Pressable onPress={() => navigation.push('Detail', item)}>
+                <Center p={2} mt={17} shadow="9" bg="white">
+                    <Image
+                        source={{ uri: item.media.thumbUrl }}
+                        alt="shoe"
+                        w={120}
+                        h={120}
+                        resizeMode="contain"
+                    />
+                    <Text fontSize="md" fontFamily="Roboto_400Regular">
+                        {item.name}
+                    </Text>
+                </Center>
             </Pressable>
         );
     };
@@ -55,7 +67,6 @@ export default function Calendar() {
         <>
             <Agenda
                 items={items}
-                loadItemsForMonth={loadItems}
                 selected={'2022-07-07'}
                 renderItem={renderItem}
             />

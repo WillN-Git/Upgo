@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, extendTheme, NativeBaseProvider } from 'native-base';
 import { useFonts, Inter_700Bold, Inter_900Black } from '@expo-google-fonts/inter';
-import { Roboto_400Regular } from '@expo-google-fonts/roboto';
+import { Roboto_400Regular, Roboto_500Medium } from '@expo-google-fonts/roboto';
 
 // Components
 import Loader from './src/components/Loader';
@@ -28,7 +28,7 @@ declare module 'native-base' {
 export default function App() {
     const queryClient = new QueryClient();
 
-    const FAKE_TIME_LOAD = 1000;
+    const FAKE_TIME_LOAD = 3000;
     const [endOfLoading, setEndOfLoading] = useState(false);
     
     // Fonts Loading
@@ -36,9 +36,10 @@ export default function App() {
         Inter_700Bold,
         Inter_900Black,
         Roboto_400Regular,
+        Roboto_500Medium,
     });
 
-    const loadCondition = !fontsLoaded; // !endOfLoading || !fontsLoaded
+    const loadCondition = !endOfLoading || !fontsLoaded;
 
     // Loader
     useEffect(() => {

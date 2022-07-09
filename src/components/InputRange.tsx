@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { View, TextInput, Dimensions, StyleSheet } from 'react-native';
 import Svg, { Line } from 'react-native-svg';
 import {
@@ -8,7 +8,6 @@ import {
 import Animated, { call, useCode } from 'react-native-reanimated';
 import { usePanGesture } from '../hooks';
 import { THRESHOLD, CURSOR_SIZE } from '../hooks/usePanGesture';
-import { useRef } from 'react';
 
 const { width: WIDTH } = Dimensions.get('screen');
 
@@ -118,9 +117,6 @@ export default function InputRange({
 
 function PanComponent(initialPos: number) {
     const { transX, onGestureHandle } = usePanGesture(initialPos);
-    // const rStyle = useAnimatedStyle(() => ({
-    //     transform: [{ translateX: transX.value }],
-    // }));
 
     const Pan = () => (
         <PanGestureHandler
@@ -128,7 +124,7 @@ function PanComponent(initialPos: number) {
             onHandlerStateChange={onGestureHandle}
         >
             <Animated.View
-                style={[styles.knob, { transform: [{ translateX: transX }] }]}
+                style={[styles.cursor, { transform: [{ translateX: transX }] }]}
             />
         </PanGestureHandler>
     );
@@ -148,7 +144,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         backgroundColor: 'gray',
     },
-    knob: {
+    cursor: {
         height: CURSOR_SIZE,
         width: CURSOR_SIZE,
         borderRadius: 10,
