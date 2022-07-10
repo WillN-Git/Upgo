@@ -1,5 +1,6 @@
 import { Brand } from './Brand';
 import { Shoe } from './Shoes';
+import { Gender } from './Gender';
 import {
     RootStackParamList,
     RootStackScreenProps,
@@ -10,6 +11,7 @@ import {
 export {
     Shoe,
     Brand,
+    Gender,
     RootStackParamList,
     RootStackScreenProps,
     RootBottomTabParamList,

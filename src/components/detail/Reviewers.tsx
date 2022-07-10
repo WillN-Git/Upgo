@@ -5,7 +5,7 @@ export default function Reviewers() {
     return (
         <>
             <Text fontSize="md" my={3} fontFamily="Inter_700Bold">
-                Revues
+                Reviewers
             </Text>
             <Center>
                 <Avatar.Group

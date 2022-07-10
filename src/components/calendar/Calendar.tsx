@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Pressable, Image, Text, Center } from 'native-base';
 import { Agenda } from 'react-native-calendars';
-import { API_BROWSE_URL } from '../../utils/constants';
 import { RootBottomTabParamList, RootStackParamList, Shoe } from '../../types';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useShoesByYear } from '../../hooks';
 
 export default function Calendar({
     navigation,
@@ -15,34 +15,30 @@ export default function Calendar({
         NativeStackNavigationProp<RootStackParamList, 'Root', undefined>
     >,
 }) {
-    const [items, setItems] = useState<{ [key: string]: Shoe[] }>({});
+    const [dataSource, setDataSource] = useState<{ [key: string]: Shoe[] }>({});
 
-    const getData = async () => {
-        const fetchedData = await fetch(`${API_BROWSE_URL}&year=2022`).then(
-            (res) => res.json()
-        );
-
-        const data: Shoe[] = fetchedData.Products;
-
-        const mappedData = data.map((shoe) => ({ ...shoe }));
-
-        const reduced = mappedData.reduce(
-            (acc: { [key: string]: Shoe[] }, currentValue: Shoe) => {
-                const { releaseDate, ...rest } = currentValue;
-
-                acc[releaseDate] = [{ releaseDate, ...rest }];
-
-                return acc;
-            },
-            {}
-        );
-
-        setItems(reduced);
-    };
+    const [year, setYear] = useState(2022);
+    const [month, setMonth] = useState(1);
+    const { data, error, isLoading, isSuccess } = useShoesByYear(year, month);
 
     useEffect(() => {
-        getData();
-    }, []);
+        if (data) {
+            const mappedData = data.map((shoe) => ({ ...shoe }));
+
+            const reduced = mappedData.reduce(
+                (acc: { [key: string]: Shoe[] }, currentValue: Shoe) => {
+                    const { releaseDate, ...rest } = currentValue;
+
+                    acc[releaseDate] = [{ releaseDate, ...rest }];
+
+                    return acc;
+                },
+                {}
+            );
+
+            setDataSource(reduced);
+        }
+    }, [data, year, month]);
 
     const renderItem = (item: Shoe) => {
         return (
@@ -55,8 +51,11 @@ export default function Calendar({
                         h={120}
                         resizeMode="contain"
                     />
-                    <Text fontSize="md" fontFamily="Roboto_400Regular">
+                    <Text fontSize="md" fontStyle="italic" opacity={0.5}>
                         {item.name}
+                    </Text>
+                    <Text fontSize="md" fontFamily="Roboto_400Regular">
+                        {item.shoe}
                     </Text>
                 </Center>
             </Pressable>
@@ -66,9 +65,26 @@ export default function Calendar({
     return (
         <>
             <Agenda
-                items={items}
-                selected={'2022-07-07'}
+                items={dataSource}
+                selected={'2022-07-09'}
                 renderItem={renderItem}
+                loadItemsForMonth={(date) => {
+                    if (date.year != year) {
+                        setYear(date.year);
+                        setMonth(1);
+                    }
+                    if (date.month != month) {
+                        setMonth(month + 1);
+                    }
+                }}
+                theme={{
+                    dotColor: 'black',
+                    selectedDotColor: 'white',
+                    selectedDayBackgroundColor: 'black',
+                    todayBackgroundColor: 'gray',
+                    todayTextColor: 'white',
+                    todayButtonFontWeight: '900',
+                }}
             />
         </>
     );

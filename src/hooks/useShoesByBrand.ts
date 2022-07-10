@@ -1,14 +1,11 @@
 import axios from 'axios';
 import { useQuery, UseQueryResult } from 'react-query';
-import useStore from './useStore';
 import { Shoe } from '../types';
-import { API_URL } from '../utils/constants';
+import { API_BROWSE_URL, INITIAL_TIMESTAMP } from '../utils/constants';
 
-const getShoesByBrand = async () => {
-    const brandSelected = useStore((state) => state.brandSelected);
-
+const getShoesByBrand = async (brand: string) => {
     const { data } = await axios.get(
-        `${API_URL}/browse?productCategory=sneakers&brand=${brandSelected}`,
+        `${API_BROWSE_URL}&releaseTime=gte-${INITIAL_TIMESTAMP}&brand=${brand}`,
         {
             withCredentials: true,
         }
@@ -22,5 +19,7 @@ const getShoesByBrand = async () => {
 export default function useShoesByBrand(
     brand = 'Vans'
 ): UseQueryResult<Shoe[], unknown> {
-    return useQuery(['brand', brand], getShoesByBrand);
+    return useQuery(`query-shoes-by-brand-${brand}`, () =>
+        getShoesByBrand(brand)
+    );
 }

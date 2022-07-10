@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
-import { Box, Text, Center, HStack, Select, Actionsheet } from 'native-base';
+import {
+    Box,
+    Text,
+    Center,
+    HStack,
+    Select,
+    Actionsheet,
+    FlatList,
+} from 'native-base';
 import InputRange from './InputRange';
 import CustomBadge from './CustomBadge';
+import { Gender } from '../../types';
+import { useBrands } from '../../hooks';
 
 interface IProps {
     onClose: () => void;
@@ -10,6 +20,13 @@ interface IProps {
 
 export default function BottomSheet({ onClose, isOpen }: IProps) {
     const [language, setLanguage] = useState('');
+
+    // Brands data
+    const { data, error, isSuccess, isLoading } = useBrands();
+
+    // Filters
+    const [gendersFilter, setGendersFilter] = useState<Gender[]>([]);
+    const [brandsFilter, setBrandsFilter] = useState<string[]>([]);
 
     return (
         <Actionsheet isOpen={isOpen} onClose={onClose} disableOverlay={false}>
@@ -30,26 +47,57 @@ export default function BottomSheet({ onClose, isOpen }: IProps) {
 
                     {/* Badges */}
                     <HStack flexWrap="wrap" justifyContent="space-between">
-                        <CustomBadge text="Hommes" active />
+                        <CustomBadge
+                            name={Gender.Men}
+                            text="Hommes"
+                            filter={gendersFilter}
+                            setFilter={setGendersFilter}
+                        />
 
-                        <CustomBadge text="Femmes" />
+                        <CustomBadge
+                            name={Gender.Women}
+                            text="Femmes"
+                            filter={gendersFilter}
+                            setFilter={setGendersFilter}
+                        />
 
-                        <CustomBadge text="Enfants" />
+                        <CustomBadge
+                            name={Gender.Child}
+                            text="Enfants"
+                            filter={gendersFilter}
+                            setFilter={setGendersFilter}
+                        />
                     </HStack>
                 </Box>
 
                 {/* Brand section */}
                 <Box>
                     {/* Title */}
-                    <Title text="Marque" />
+                    <Title text="Marques" />
 
                     {/* Badges */}
                     <HStack flexWrap="wrap" justifyContent="space-between">
-                        <CustomBadge text="Nike" uppercase active />
-
-                        <CustomBadge text="Adidas" uppercase />
-
-                        <CustomBadge text="Jordan" uppercase />
+                        {data && (
+                            <FlatList
+                                data={data}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                contentContainerStyle={{ paddingLeft: 20 }}
+                                keyExtractor={(item) =>
+                                    `badge-filter-${item.name
+                                        .split(' ')
+                                        .join('-')}`
+                                }
+                                renderItem={({ item }) => (
+                                    <CustomBadge
+                                        name={item.name}
+                                        text={item.name}
+                                        filter={brandsFilter}
+                                        setFilter={setBrandsFilter}
+                                    />
+                                )}
+                            />
+                        )}
                     </HStack>
                 </Box>
 

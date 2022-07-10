@@ -32,7 +32,7 @@ export default function DescribeShoe({ description }: IProps) {
                             textDecorationLine="underline"
                             textDecorationColor="black"
                         >
-                            {readMore ? 'Réduire.' : 'Lire plus...'}
+                            {readMore ? 'Minimize.' : 'Read more...'}
                         </Text>
                     </TouchableOpacity>
                 </>

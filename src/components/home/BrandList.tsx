@@ -1,16 +1,19 @@
 import React, { useRef, useState } from 'react';
-import { Dimensions, Animated, View } from 'react-native';
+import { Animated, View } from 'react-native';
 import { Box, useColorMode, Text } from 'native-base';
-import { useStore, useBrands } from '../../hooks';
+import { useBrands } from '../../hooks';
 import { Brand } from '../../types';
-
-const { width } = Dimensions.get('screen');
+import { MAX_WIDTH } from '../../utils/constants';
 
 /**
  * Optimized !!!
  */
 
-export default function BrandList() {
+interface IProps {
+    changeBrand: (arg: string) => void;
+}
+
+export default function BrandList({ changeBrand }: IProps) {
     // Current color mode
     const { colorMode } = useColorMode();
 
@@ -22,13 +25,12 @@ export default function BrandList() {
     );
 
     // Switch brand
-    const changeBrand = useStore((state) => state.changeBrand);
     const { data, error, isSuccess, isLoading } = useBrands();
     const [dragEnded, setDragEnded] = useState(false);
 
     // List Item config
-    const ITEM_SIZE = width * 0.38;
-    const ITEM_SPACING = (width - ITEM_SIZE) / 2;
+    const ITEM_SIZE = MAX_WIDTH * 0.38;
+    const ITEM_SPACING = (MAX_WIDTH - ITEM_SIZE) / 2;
 
     const renderItem = ({ item, index }: { item: Brand, index: number }) => {
         const inputRange = [
@@ -45,11 +47,6 @@ export default function BrandList() {
         const scale = scrollX.interpolate({
             inputRange,
             outputRange: [0.6, 1.2, 0.6],
-        });
-
-        const opacity2 = scrollX.interpolate({
-            inputRange,
-            outputRange: [0, 1, 0],
         });
 
         return (
@@ -76,11 +73,6 @@ export default function BrandList() {
                 >
                     {item.name}
                 </Animated.Text>
-                {/* <Animated.Text
-                    style={[{ textAlign: 'center' }, { opacity: opacity2 }]}
-                >
-                    {item.qty}
-                </Animated.Text> */}
             </View>
         );
     };
@@ -120,6 +112,7 @@ export default function BrandList() {
                         );
 
                         if (data && dragEnded) {
+                            console.log('YO');
                             changeBrand(data[index].name);
                             setDragEnded(false);
                         }
