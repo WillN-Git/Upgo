@@ -1,5 +1,9 @@
 # Upgo
 
+<div align="center">
+    <img src="./MDImages/upgo-shorts.gif" alt="" width="200" />
+</div>
+
 ## Objectif du Projet 🎯
 
 Ce projet a pour but de voir les dates de sorties des prochaines paires 😯✨, à travers une application mobile bien sûr, simple à l'usage.
