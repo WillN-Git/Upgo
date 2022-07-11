@@ -31,7 +31,7 @@ La principale cible de cette application est composée majoritairement de jeunes
 -   [Expo CLI](https://expo.dev/) : pour publier l'application.
 -   [VSCode](https://code.visualstudio.com) : mon éditeur de code en développement web.
 
-## Déploiement
+## Déploiement 🚀
 
 L'application est publié en ligne et peut être visualisé en installant l'application `ExpoGo` sur votre smartphone et en ouvrant le lien suivant : [UpGo](https://expo.dev/@willyndefo/Upgo)
 
