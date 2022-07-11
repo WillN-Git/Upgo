@@ -15,18 +15,44 @@ Objectifs Personnels :
 
 ## Stratégie UX 📑
 
-### Objectifs de l'application mobile
+### Objectifs de l'application mobile 📴
 
 -   Avoir un design épuré.
 -   Utiliser des couleurs à la mode et facilement différenciable (afin de réduire les besoins de concentrations).
 
-### Besoin Utilisateur
+### Besoin Utilisateur 👨
 
 La principale cible de cette application est composée majoritairement de jeunes. Les besoins que nous avons relevé sont les suivants :
 
 -   Améliorer l'expérience des utilisateurs dans la raffle de sneakers en ligne.
 -   Voir les futures sorties de sneakers de la marketplace StockX.
 -   Savoir quels sont les chaussures tendance du moment.
+
+### Fonctionnalités présentes 👍
+
+1. Recherche des sneakers par :
+    - Marque
+    - Nom
+    - Catégorie
+    - Date de sortie
+    - Sexe
+2. Application de filtres aux recherches effectuées.
+3. Calendrier pour visualiser les chaussures de façon chronologique.
+4. Vue sur les chaussures les plus récentes.
+5. Vue sur la chaussure la plus achetée.
+6. Stockage des favoris coté client.
+7. Page détail pour chaque chaussure avec :
+    - Description des la chaussure concernée
+    - Vue des différents `tags`
+    - Vue sur les différents utilisateurs ayant liké ou acheter la chaussure
+    - Vue sur la réduction du prix
+8. Scroll infini pour une exploration libre du l'utilisateur.
+
+### Fonctionnalités à ajouter :bulb:
+
+1. Stockage des données utilisateurs en backend.
+2. Transformation des images `.jpg` reçues en `.png` avec un fond transparent.
+3. Mode hors connexion.
 
 ## Technologies Utilisées :man_technologist:
 
@@ -51,7 +77,7 @@ En scannant mon QR code :
 
 ### Contenu
 
-Toutes les données utilisées par cette application proviennent de l'api de [StockX](https://stockx.com/api/)
+Toutes les données utilisées par cette application proviennent de l'api de [StockX](https://stockx.com/api/).
 
 ### Remerciements
 
