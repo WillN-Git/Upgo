@@ -60,7 +60,7 @@ export default function DetailScreen({
             </ScrollView>
 
             {/* Action bar */}
-            <ActionBar />
+            <ActionBar shoe={route.params} />
         </>
     );
 }

@@ -2,7 +2,7 @@ import React, { memo, PropsWithChildren } from 'react';
 import { Box, Text, VStack, HStack, Center, Image } from 'native-base';
 import LikeBtn from '../shared/LikeBtn';
 import { Shoe } from '../../types';
-import { dollarToEuro } from '../../utils/helpers';
+import { dollarToEuro, arePropsEqual } from '../../utils/helpers';
 import { AntDesign as Icon } from '@expo/vector-icons';
 
 interface IProps {
@@ -45,7 +45,7 @@ function ShoeBox({ item, index, thumbsize: THUMB_SIZE }: IProps) {
                         {item.shoe.split(' ')[0]}
                     </Text>
 
-                    <LikeBtn />
+                    <LikeBtn item={item} />
                 </HStack>
 
                 <Text fontSize={20} fontWeight="bold" numberOfLines={1}>
@@ -99,13 +99,6 @@ function ShoeBox({ item, index, thumbsize: THUMB_SIZE }: IProps) {
             </HStack>
         </Box>
     );
-}
-
-function arePropsEqual(
-    prevProps: Readonly<PropsWithChildren<IProps>>,
-    nextProps: Readonly<PropsWithChildren<IProps>>
-) {
-    return prevProps.item.id === nextProps.item.id;
 }
 
 export default memo(ShoeBox, arePropsEqual);

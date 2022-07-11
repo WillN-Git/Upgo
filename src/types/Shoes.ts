@@ -15,6 +15,7 @@ export interface Shoe {
     market: ShoeMarket;
     _tags: Array<string>;
     selling_countries: Array<string>;
+    isLiked?: boolean;
 }
 
 export interface ShoeMediaImage {

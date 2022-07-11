@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, StyleSheet } from 'react-native';
-import { Box, Text, HStack, VStack, Image } from 'native-base';
-import { dollarToEuro } from '../../utils/helpers';
 import { RootBottomTabParamList, RootStackParamList, Shoe } from '../../types';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useShoes } from '../../hooks';
+import SearchShoeBox from './SearchShoeBox';
+import Loader from '../shared/Loader';
 
 interface IProps {
     dataSource: Shoe[];
@@ -71,41 +71,7 @@ export default function SearchShoeList({
                         { opacity, transform: [{ scale }] },
                     ]}
                 >
-                    <HStack alignItems="center">
-                        <Box>
-                            <Image
-                                source={{ uri: item.media.thumbUrl }}
-                                alt="shoe"
-                                w={120}
-                                h={120}
-                                resizeMode="contain"
-                            />
-                        </Box>
-
-                        <VStack ml={7}>
-                            <Text
-                                w="80%"
-                                fontWeight="bold"
-                                flexDirection="row"
-                                flexWrap="wrap"
-                            >
-                                {item.shoe}
-                            </Text>
-
-                            <Text>
-                                {item.releaseDate.split('-')[2]}-
-                                {item.releaseDate.split('-')[1]}-
-                                {item.releaseDate.split('-')[0]}
-                            </Text>
-
-                            <Text>
-                                {item.retailPrice
-                                    ? dollarToEuro(item.retailPrice)
-                                    : dollarToEuro(item.market.lastSale)}
-                                €
-                            </Text>
-                        </VStack>
-                    </HStack>
+                    <SearchShoeBox item={item} />
                 </Animated.View>
             </Pressable>
         );
@@ -128,6 +94,7 @@ export default function SearchShoeList({
             removeClippedSubviews={true}
             onEndReached={() => setPage(page + 1)}
             onEndReachedThreshold={0}
+            ListFooterComponent={() => <Loader />}
         />
     );
 }

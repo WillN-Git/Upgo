@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Box,
     Text,
@@ -11,7 +11,8 @@ import {
 import InputRange from './InputRange';
 import CustomBadge from './CustomBadge';
 import { Gender } from '../../types';
-import { useBrands } from '../../hooks';
+import { useBrands, useStore } from '../../hooks';
+import { toMonthName } from '../../utils/helpers';
 
 interface IProps {
     onClose: () => void;
@@ -25,8 +26,22 @@ export default function BottomSheet({ onClose, isOpen }: IProps) {
     const { data, error, isSuccess, isLoading } = useBrands();
 
     // Filters
+    const setFilter = useStore((state) => state.setFilter);
     const [gendersFilter, setGendersFilter] = useState<Gender[]>([]);
     const [brandsFilter, setBrandsFilter] = useState<string[]>([]);
+
+    useEffect(() => {
+        setFilter(gendersFilter[gendersFilter.length - 1]);
+    }, [gendersFilter]);
+
+    useEffect(() => {
+        setFilter(brandsFilter[brandsFilter.length - 1]);
+    }, [brandsFilter]);
+
+    useEffect(() => {
+        console.log('LANGAGE => ', language);
+        setFilter(language);
+    }, [language]);
 
     return (
         <Actionsheet isOpen={isOpen} onClose={onClose} disableOverlay={false}>
@@ -35,7 +50,7 @@ export default function BottomSheet({ onClose, isOpen }: IProps) {
                 <Box>
                     <Center>
                         <Text fontSize="3xl" fontFamily="Inter_900Black">
-                            Filtres
+                            Filters
                         </Text>
                     </Center>
                 </Box>
@@ -43,7 +58,7 @@ export default function BottomSheet({ onClose, isOpen }: IProps) {
                 {/* Gender section */}
                 <Box>
                     {/* Title */}
-                    <Title text="Genres" />
+                    <Title text="Genders" />
 
                     {/* Badges */}
                     <HStack flexWrap="wrap" justifyContent="space-between">
@@ -73,7 +88,7 @@ export default function BottomSheet({ onClose, isOpen }: IProps) {
                 {/* Brand section */}
                 <Box>
                     {/* Title */}
-                    <Title text="Marques" />
+                    <Title text="Brands" />
 
                     {/* Badges */}
                     <HStack flexWrap="wrap" justifyContent="space-between">
@@ -88,6 +103,9 @@ export default function BottomSheet({ onClose, isOpen }: IProps) {
                                         .split(' ')
                                         .join('-')}`
                                 }
+                                maxToRenderPerBatch={40}
+                                initialNumToRender={10}
+                                updateCellsBatchingPeriod={0}
                                 renderItem={({ item }) => (
                                     <CustomBadge
                                         name={item.name}
@@ -104,50 +122,59 @@ export default function BottomSheet({ onClose, isOpen }: IProps) {
                 {/* Price Range */}
                 <Box>
                     {/* Title */}
-                    <Title text="Prix" />
+                    <Title text="Range" />
 
                     <InputRange
                         minValue={0}
-                        maxValue={100}
-                        onChangeMin={() => console.log('Change min')}
-                        onChangeMax={() => console.log('Change max')}
+                        maxValue={722}
+                        onChangeMin={() => {}}
+                        onChangeMax={() => {}}
                     />
                 </Box>
 
                 <Box>
                     {/* Title */}
-                    <Title text="Date de Sortie" />
+                    <Title text="Date" />
 
                     <HStack justifyContent="space-between">
                         <Select
                             mr={1}
-                            placeholder="Année"
+                            placeholder="Year"
                             selectedValue={language}
                             width={150}
                             onValueChange={(itemValue: string) =>
                                 setLanguage(itemValue)
                             }
                         >
-                            <Select.Item label="Année" disabled value="key0" />
-                            <Select.Item label="ATM Card" value="key1" />
-                            <Select.Item label="Debit Card" value="key2" />
-                            <Select.Item label="Credit Card" value="key3" />
-                            <Select.Item label="Net Banking" value="key4" />
+                            {[...new Array(5)].map((_, index) => (
+                                <Select.Item
+                                    key={`select-item-year-${2022 - index}`}
+                                    label={`${2022 - index}`}
+                                    value={`${2022 - index}`}
+                                />
+                            ))}
                         </Select>
 
                         <Select
-                            placeholder="Mois"
+                            placeholder="Month"
                             selectedValue={language}
                             width={150}
-                            onValueChange={(itemValue: string) =>
-                                setLanguage(itemValue)
-                            }
+                            onValueChange={(itemValue: string) => {
+                                console.log('CHANGE !');
+                                setLanguage(itemValue);
+                            }}
                         >
-                            <Select.Item label="Année" disabled value="key0" />
-                            <Select.Item label="ATM Card" value="key1" />
-                            <Select.Item label="Debit Card" value="key2" />
-                            <Select.Item label="Credit Card" value="key3" />
-                            <Select.Item label="Net Banking" value="key4" />
+                            {[...new Array(12)].map((_, index) => (
+                                <Select.Item
+                                    key={`select-item-month-${12 - index}`}
+                                    label={toMonthName(12 - index)}
+                                    value={
+                                        index < 10
+                                            ? `0${12 - index}`
+                                            : `${12 - index}`
+                                    }
+                                />
+                            ))}
                         </Select>
                     </HStack>
                 </Box>

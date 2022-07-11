@@ -1,14 +1,33 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import { MotiPressable } from 'moti/interactions';
+import { Shoe } from '../../types';
+import { useStore } from '../../hooks';
 
-export default function LikeBtn() {
-    type inameType = 'heart' | 'heart-o';
+interface IProps {
+    item: Shoe;
+}
+
+type inameType = 'heart' | 'heart-o';
+
+function LikeBtn({ item }: IProps) {
     const [iname, setIname] = useState<inameType>('heart-o');
+    const addLikedShoe = useStore((state) => state.addLikedShoe);
+    const removeLikedShoe = useStore((state) => state.removeLikedShoe);
+
+    const onPress = () => {
+        setIname(iname === 'heart' ? 'heart-o' : 'heart');
+
+        if (iname === 'heart') {
+            removeLikedShoe(item.id);
+        } else {
+            addLikedShoe(item);
+        }
+    };
 
     return (
         <MotiPressable
-            onPress={() => setIname(iname === 'heart' ? 'heart-o' : 'heart')}
+            onPress={onPress}
             animate={({ pressed }) => {
                 'worklet';
 
@@ -22,3 +41,5 @@ export default function LikeBtn() {
         </MotiPressable>
     );
 }
+
+export default memo(LikeBtn);

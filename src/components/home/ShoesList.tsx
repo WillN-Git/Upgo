@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { FlatList } from 'react-native';
 import { Pressable } from 'native-base';
-import {
-    API_BROWSE_URL,
-    INITIAL_TIMESTAMP,
-    MAX_WIDTH,
-} from '../../utils/constants';
+import { MAX_WIDTH } from '../../utils/constants';
 import { Shoe } from '../../types/Shoes';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
@@ -22,7 +18,7 @@ interface IProps {
     >;
 }
 
-export default function ShoesList({ brand, navigation }: IProps) {
+function ShoesList({ brand, navigation }: IProps) {
     const [offset, setOffset] = useState(1); // It's like page number
     const { data: shoes, error, isSuccess, isLoading } = useShoesByBrand(brand); // The Whole data
     const [dataSource, setDataSource] = useState<Shoe[]>([]); // Contains limited number of data
@@ -59,8 +55,6 @@ export default function ShoesList({ brand, navigation }: IProps) {
         </Pressable>
     );
 
-    console.log(3);
-
     return (
         <>
             {shoes && shoes.length != 0 && (
@@ -92,3 +86,5 @@ export default function ShoesList({ brand, navigation }: IProps) {
         </>
     );
 }
+
+export default memo(ShoesList);

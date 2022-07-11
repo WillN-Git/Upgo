@@ -4,6 +4,7 @@ import { Searchbar, Filter } from '../components';
 import { RootBottomTabScreenProps, Shoe } from '../types';
 import SearchShoeList from '../components/search/SearchShoeList';
 import { dollarToEuro } from '../utils/helpers';
+import { useStore } from '../hooks';
 
 export default function SearchScreen({
     navigation,
@@ -12,12 +13,21 @@ export default function SearchScreen({
     const [dataSource, setDataSource] = useState<Shoe[]>([]); // The data that will be rendered
 
     // Search system
+    const filter = useStore((state) => state.filter);
     const [searchTerm, setSearchTerm] = useState('');
     const filteredData = useMemo(() => {
-        if (searchTerm != '') {
-            const conditions = searchTerm
-                .split(' ')
-                .map((term) => term.toLowerCase());
+        if (searchTerm != '' || filter.length > 0) {
+            let conditions: Array<string>;
+
+            if (searchTerm != '') {
+                const searchFilter = searchTerm
+                    .split(' ')
+                    .map((term) => term.toLowerCase());
+
+                conditions = [...searchFilter, ...filter];
+            } else {
+                conditions = [...filter];
+            }
 
             return [
                 ...new Set(
@@ -39,7 +49,7 @@ export default function SearchScreen({
 
                         // Shoe date
                         const includeDate = conditions.some((term) =>
-                            shoe.releaseDate.toLowerCase().includes(term)
+                            shoe.releaseDate.includes(term)
                         );
 
                         // Shoe price
@@ -60,7 +70,7 @@ export default function SearchScreen({
         } else {
             return dataSource;
         }
-    }, [searchTerm, dataSource]);
+    }, [searchTerm, dataSource, filter]);
 
     return (
         <Box pt="16">

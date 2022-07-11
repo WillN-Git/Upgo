@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Box, extendTheme, NativeBaseProvider } from 'native-base';
+import { extendTheme, NativeBaseProvider } from 'native-base';
 import { useFonts, Inter_700Bold, Inter_900Black } from '@expo-google-fonts/inter';
 import { Roboto_400Regular, Roboto_500Medium } from '@expo-google-fonts/roboto';
-
-// Components
-import Loader from './src/components/Loader';
 import { StatusBar } from 'expo-status-bar';
 import Navigation from './src/navigation';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { Splash } from './src/components';
 
 
 // Define the config
@@ -52,7 +50,7 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
             <NativeBaseProvider>
                 {loadCondition ? (
-                    <Loader />
+                    <Splash />
                 ) : (
                     <Navigation />
                 )}

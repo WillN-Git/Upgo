@@ -6,7 +6,7 @@ export default function Loader() {
     return (
         <Center h="full">
             <Lottie
-                source={require('../../assets/loading.json')}
+                source={require('../../assets/loader.json')}
                 autoPlay
                 loop
             />

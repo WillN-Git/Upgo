@@ -1,9 +1,10 @@
-import Loader from './Loader';
+import Splash from './Splash';
 import ToggleDarkMode from './ToggleDarkMode';
 
 // Shared
 import Title from './shared/Title';
 import LikeBtn from './shared/LikeBtn';
+import Loader from './shared/Loader';
 import BottomBarShadow from './shared/BottomBarShadow';
 
 // Detail
@@ -35,6 +36,7 @@ import Header from './containers/Header';
 import ShoesBox from './containers/ShoesBox';
 
 export {
+    Splash,
     BrandList,
     Header,
     ShoesBox,

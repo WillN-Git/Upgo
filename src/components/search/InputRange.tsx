@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { memo, useRef } from 'react';
 import { View, TextInput, Dimensions, StyleSheet } from 'react-native';
 import Svg, { Line } from 'react-native-svg';
 import {
@@ -14,19 +14,14 @@ const { width: WIDTH } = Dimensions.get('screen');
 interface IProps {
     minValue: number;
     maxValue: number;
-    onChangeMin: () => void;
-    onChangeMax: () => void;
+    onChangeMin: (min: number) => void;
+    onChangeMax: (max: number) => void;
 }
 
 const AnimatedLine = Animated.createAnimatedComponent(Line);
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
-export default function InputRange({
-    minValue,
-    maxValue,
-    onChangeMin,
-    onChangeMax,
-}: IProps) {
+function InputRange({ minValue, maxValue, onChangeMin, onChangeMax }: IProps) {
     // Range
     const min = useRef(null);
     const max = useRef(null);
@@ -99,13 +94,13 @@ export default function InputRange({
 
             <View style={styles.range}>
                 <AnimatedTextInput
-                    defaultValue="0"
+                    defaultValue={`${minValue}`}
                     editable={false}
                     ref={min}
                     style={styles.label}
                 />
                 <AnimatedTextInput
-                    defaultValue={'' + WIDTH}
+                    defaultValue={`${maxValue}`}
                     editable={false}
                     ref={max}
                     style={styles.label}
@@ -163,3 +158,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
 });
+
+export default memo(InputRange);
